@@ -40,7 +40,7 @@ const getUser = async ({ cedula_rif }) => {
     }
 };
 
-const saveUser = async ({ cedula_rif, nombre, tipo_aliado, telefono, email, direccion, comision, password }) => {
+const saveUser = async ({ cedula_rif, nombre, telefono, email, direccion, comision, password }) => {
     try {
         let msg = {
             status: false,
@@ -63,7 +63,6 @@ const saveUser = async ({ cedula_rif, nombre, tipo_aliado, telefono, email, dire
             email: email,
             nombre: nombre,
             cedula_rif: cedula_rif,
-            tipo_aliado: tipo_aliado,
             telefono: telefono,
             direccion: direccion,
             date_created: date_created
@@ -71,9 +70,9 @@ const saveUser = async ({ cedula_rif, nombre, tipo_aliado, telefono, email, dire
 
         const token = jwt.sign(tokenLic, KEY, { algorithm: 'HS256' });
 
-        let sql = `INSERT INTO aliados (cedula_rif, nombre, tipo_aliado ,telefono, email, direccion, password) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        let sql = `INSERT INTO aliados (cedula_rif, nombre ,telefono, email, direccion, password) VALUES (?,?, ?, ?, ?, ?)`;
         let sql1 = `INSERT INTO empresas (rif_empresa,nombre_empresa)VALUES (?, ?)`
-        const [user] = await connection.execute(sql, [cedula_rif, nombre, tipo_aliado, telefono, email, direccion, hash]);
+        const [user] = await connection.execute(sql, [cedula_rif, nombre, telefono, email, direccion, hash]);
         console.log('DB response:', user);
         const [user1] = await connection.execute(sql1,[cedula_rif,nombre])
 
